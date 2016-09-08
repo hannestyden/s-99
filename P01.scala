@@ -4,10 +4,10 @@ object P01 {
   def example = last(List(1, 1, 2, 3, 5, 8))
   def expectedValue = 8
 
-  private def last[T](list: List[T]): T = list match {
-    case Nil          => ???
-    case last :: Nil  => last
-    case head :: tail => last(tail)
+  private def last[A](list: List[A]): A = list match {
+    case head :: Nil => head
+    case _ :: tail   => last(tail)
+    case _           => ???
   }
 
   def main(args: Array[String]) = {
