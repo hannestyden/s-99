@@ -19,6 +19,9 @@ object P05 {
     case Nil          => ???
   }
 
+  def reverseFold[A](list: List[A]): List[A] =
+    list.foldLeft(List[A]()) { (a, b) => List[A](b) ::: a }
+
   def main(args: Array[String]) = {
     println(name)
 
@@ -29,6 +32,9 @@ object P05 {
 
     println("Tail call optimized")
     compare(reverseTCO(input), output)
+
+    println("Fold")
+    compare(reverseFold(input), output)
   }
 
   private def compare[A](a: A, b: A) = {
