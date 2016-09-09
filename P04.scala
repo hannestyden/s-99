@@ -17,6 +17,9 @@ object P04 {
     case _ :: tail => lengthTCO(tail, base + 1)
   }
 
+  def lengthFold[A](list: List[A]): Int =
+    list.foldLeft(0) { (a, b) => a + 1 }
+
   def main(args: Array[String]) = {
     println(name)
 
@@ -27,6 +30,9 @@ object P04 {
 
     println("Tail call optimized")
     compare(lengthTCO(input), output)
+
+    println("Fold")
+    compare(lengthFold(input), output)
   }
 
   private def compare[A](a: A, b: A) = {
