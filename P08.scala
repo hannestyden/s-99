@@ -44,15 +44,19 @@ object P08 {
     _compress(List[A](), list, None)
   }
 
-  // HOF
-  // def compressHOF[A](list: List[A], prev: Option[A] = None): List[A]
+  // Fun
+  def compressFun[A](list: List[A]): List[A] = (list.foldLeft((Option.empty[A], List[A]())) { case ((p, acc: List[A]), e) => {
+    if (Some(e) == p) (Some(e), acc)
+    else (Some(e), acc ++ List(e))
+  } })._2
 
   def main(args: Array[String]) = {
     println(name)
 
     (Seq(
       ("Rec", compressRec _),
-      ("TCO", compressTCO _)
+      ("TCO", compressTCO _),
+      ("Fun", compressFun _)
     ): Seq[(String, List[Symbol] => List[Symbol])]).foreach { case (n, f) =>
       println(n)
       inputsAndExpectedOutputs.foreach { case (input: List[Symbol], output: List[Symbol]) => {
