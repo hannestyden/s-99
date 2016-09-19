@@ -13,7 +13,7 @@ object P08 {
   )
 
   // Naïve
-  def compress[A](list: List[A]): List[A] = {
+  def compressRec[A](list: List[A]): List[A] = {
     def _compress[A](list: List[A], prev: Option[A]): List[A] = {
       list match {
         case Nil => Nil
@@ -27,8 +27,22 @@ object P08 {
     _compress(list, None)
   }
 
-  // @tailrec
-  // def compressTCO[A](list: List[A], prev: Option[A] = None): List[A]
+  def compressTCO[A](list: List[A]): List[A] = {
+    def _headList[A](head: A, prev: Option[A]) = {
+      if (Some(head) == prev) List.empty
+      else List(head)
+    }
+
+    @tailrec
+    def _compress[A](acc: List[A], list: List[A], prev: Option[A]): List[A] = {
+      list match {
+        case Nil => acc
+        case head :: tail => _compress(acc ++ _headList(head, prev), tail, Some(head))
+      }
+    }
+
+    _compress(List[A](), list, None)
+  }
 
   // HOF
   // def compressHOF[A](list: List[A], prev: Option[A] = None): List[A]
@@ -37,7 +51,8 @@ object P08 {
     println(name)
 
     (Seq(
-      ("Recursive", compress _)
+      ("Rec", compressRec _),
+      ("TCO", compressTCO _)
     ): Seq[(String, List[Symbol] => List[Symbol])]).foreach { case (n, f) =>
       println(n)
       inputsAndExpectedOutputs.foreach { case (input: List[Symbol], output: List[Symbol]) => {
